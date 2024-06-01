@@ -1,7 +1,7 @@
 package org.jeecg.modules.system.test;
 
 import com.alibaba.fastjson.JSONObject;
-import org.jeecg.JeecgSystemApplication;
+import org.jeecg.EchoSystemApplication;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.RedisUtil;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * 系统用户单元测试
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = JeecgSystemApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = EchoSystemApplication.class)
 @SuppressWarnings({"FieldCanBeLocal", "SpringJavaAutowiredMembersInspection"})
 public class SysUserTest {
     /**

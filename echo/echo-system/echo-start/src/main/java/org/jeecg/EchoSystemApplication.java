@@ -19,15 +19,15 @@ import java.net.UnknownHostException;
 @Slf4j
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
-public class JeecgSystemApplication extends SpringBootServletInitializer {
+public class EchoSystemApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(JeecgSystemApplication.class);
+        return application.sources(EchoSystemApplication.class);
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        ConfigurableApplicationContext application = SpringApplication.run(JeecgSystemApplication.class, args);
+        ConfigurableApplicationContext application = SpringApplication.run(EchoSystemApplication.class, args);
         Environment env = application.getEnvironment();
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
