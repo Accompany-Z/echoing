@@ -16,7 +16,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.DataBaseConstant;
 import org.jeecg.common.constant.SymbolConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.util.JeecgDataAutorUtils;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.system.vo.SysPermissionDataRuleModel;
@@ -258,7 +258,7 @@ public class QueryGenerator {
 			//判断column是不是当前实体的
 			log.debug("当前字段有："+ allFields);
 			if (!allColumnExist(column, allFields)) {
-				throw new JeecgBootException("请注意，将要排序的列字段不存在：" + column);
+				throw new EchoException("请注意，将要排序的列字段不存在：" + column);
 			}
 			//update-end-author:taoyan date:2022-5-16 for: issues/3676 获取系统用户列表时，使用SQL注入生效
 

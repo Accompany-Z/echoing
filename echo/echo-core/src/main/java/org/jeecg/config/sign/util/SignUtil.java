@@ -3,7 +3,7 @@ package org.jeecg.config.sign.util;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.constant.SymbolConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.util.SpringContextUtils;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.config.JeecgBaseConfig;
@@ -53,7 +53,7 @@ public class SignUtil {
         String signatureSecret = jeecgBaseConfig.getSignatureSecret();
         String curlyBracket = SymbolConstant.DOLLAR + SymbolConstant.LEFT_CURLY_BRACKET;
         if(oConvertUtils.isEmpty(signatureSecret) || signatureSecret.contains(curlyBracket)){
-            throw new JeecgBootException("签名密钥 ${jeecg.signatureSecret} 缺少配置 ！！");
+            throw new EchoException("签名密钥 ${jeecg.signatureSecret} 缺少配置 ！！");
         }
         try {
             //【issues/I484RW】2.4.6部署后，下拉搜索框提示“sign签名检验失败”

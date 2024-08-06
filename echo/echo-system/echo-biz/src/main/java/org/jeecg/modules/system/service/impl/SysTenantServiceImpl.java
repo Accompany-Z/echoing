@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.constant.CommonConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.modules.system.entity.SysTenant;
 import org.jeecg.modules.system.entity.SysUser;
 import org.jeecg.modules.system.mapper.SysTenantMapper;
@@ -52,7 +52,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         // 查找出已被关联的用户数量
         Long userCount = this.countUserLinkTenant(id);
         if (userCount > 0) {
-            throw new JeecgBootException("该租户已被引用，无法删除！");
+            throw new EchoException("该租户已被引用，无法删除！");
         }
         return super.removeById(Integer.parseInt(id));
     }

@@ -2,7 +2,7 @@ package org.jeecg.modules.system.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.util.CommonUtils;
 import org.jeecg.common.util.MinioUtil;
 import org.jeecg.common.util.oConvertUtils;
@@ -40,7 +40,7 @@ public class SysUploadController {
         //LOWCOD-2580 sys/common/upload接口存在任意文件上传漏洞
         boolean flag = oConvertUtils.isNotEmpty(bizPath) && (bizPath.contains("../") || bizPath.contains("..\\"));
         if (flag) {
-            throw new JeecgBootException("上传目录bizPath，格式非法！");
+            throw new EchoException("上传目录bizPath，格式非法！");
         }
 
         if(oConvertUtils.isEmpty(bizPath)){

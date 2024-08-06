@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.SymbolConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.util.CommonUtils;
 import org.jeecg.common.util.filter.FileTypeFilter;
 import org.jeecg.common.util.oConvertUtils;
@@ -70,7 +70,7 @@ public class CommonController {
         //LOWCOD-2580 sys/common/upload接口存在任意文件上传漏洞
         if (oConvertUtils.isNotEmpty(bizPath)) {
             if(bizPath.contains(SymbolConstant.SPOT_SINGLE_SLASH) || bizPath.contains(SymbolConstant.SPOT_DOUBLE_BACKSLASH)){
-                throw new JeecgBootException("上传目录bizPath，格式非法！");
+                throw new EchoException("上传目录bizPath，格式非法！");
             }
         }
 

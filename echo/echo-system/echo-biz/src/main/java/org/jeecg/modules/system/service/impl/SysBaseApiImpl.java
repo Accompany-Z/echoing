@@ -19,7 +19,7 @@ import org.jeecg.common.aspect.UrlMatchEnum;
 import org.jeecg.common.constant.*;
 import org.jeecg.common.constant.enums.MessageTypeEnum;
 import org.jeecg.common.desensitization.util.SensitiveInfoUtil;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.vo.*;
@@ -367,7 +367,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 
 		List<SysMessageTemplate> sysSmsTemplates = sysMessageTemplateService.selectByCode(templateCode);
 		if(sysSmsTemplates==null||sysSmsTemplates.size()==0){
-			throw new JeecgBootException("消息模板不存在，模板编码："+templateCode);
+			throw new EchoException("消息模板不存在，模板编码："+templateCode);
 		}
 		SysMessageTemplate sysSmsTemplate = sysSmsTemplates.get(0);
 		//模板标题
@@ -440,7 +440,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 
 		List<SysMessageTemplate> sysSmsTemplates = sysMessageTemplateService.selectByCode(templateCode);
 		if(sysSmsTemplates==null||sysSmsTemplates.size()==0){
-			throw new JeecgBootException("消息模板不存在，模板编码："+templateCode);
+			throw new EchoException("消息模板不存在，模板编码："+templateCode);
 		}
 		SysMessageTemplate sysSmsTemplate = sysSmsTemplates.get(0);
 		//模板标题
@@ -508,7 +508,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 		Map<String, String> map = templateDTO.getTemplateParam();
 		List<SysMessageTemplate> sysSmsTemplates = sysMessageTemplateService.selectByCode(templateCode);
 		if(sysSmsTemplates==null||sysSmsTemplates.size()==0){
-			throw new JeecgBootException("消息模板不存在，模板编码："+templateCode);
+			throw new EchoException("消息模板不存在，模板编码："+templateCode);
 		}
 		SysMessageTemplate sysSmsTemplate = sysSmsTemplates.get(0);
 		//模板内容
@@ -1207,7 +1207,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 			message.setContent(content);
 		}
 		if(oConvertUtils.isEmpty(message.getContent())){
-			throw new JeecgBootException("发送消息失败,消息内容为空！");
+			throw new EchoException("发送消息失败,消息内容为空！");
 		}
 		//update-end-author:taoyan date:2022-7-9 for: 将模板解析代码移至消息发送, 而不是调用的地方
 		if(MessageTypeEnum.XT.getType().equals(messageType)){

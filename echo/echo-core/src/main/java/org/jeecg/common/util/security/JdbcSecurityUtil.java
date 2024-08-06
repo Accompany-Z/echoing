@@ -1,6 +1,6 @@
 package org.jeecg.common.util.security;
 
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.util.oConvertUtils;
 
 /**
@@ -37,7 +37,7 @@ public class JdbcSecurityUtil {
             String key = temp.split("=")[0];
             for(String prop: notAllowedProps){
                 if(prop.equalsIgnoreCase(key)){
-                    throw new JeecgBootException("连接地址有安全风险，【"+key+"】");
+                    throw new EchoException("连接地址有安全风险，【"+key+"】");
                 }
             }
         }

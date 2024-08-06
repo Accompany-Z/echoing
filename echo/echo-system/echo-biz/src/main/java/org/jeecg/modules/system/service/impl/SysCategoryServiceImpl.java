@@ -5,10 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.FillRuleConstant;
 import org.jeecg.common.constant.SymbolConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.util.FillRuleUtil;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.system.entity.SysCategory;
@@ -77,15 +76,15 @@ public class SysCategoryServiceImpl extends ServiceImpl<SysCategoryMapper, SysCa
 	}
 
 	@Override
-	public List<TreeSelectModel> queryListByCode(String pcode) throws JeecgBootException{
+	public List<TreeSelectModel> queryListByCode(String pcode) throws EchoException {
 		String pid = ROOT_PID_VALUE;
 		if(oConvertUtils.isNotEmpty(pcode)) {
 			List<SysCategory> list = baseMapper.selectList(new LambdaQueryWrapper<SysCategory>().eq(SysCategory::getCode, pcode));
 			if(list==null || list.size() ==0) {
-				throw new JeecgBootException("该编码【"+pcode+"】不存在，请核实!");
+				throw new EchoException("该编码【"+pcode+"】不存在，请核实!");
 			}
 			if(list.size()>1) {
-				throw new JeecgBootException("该编码【"+pcode+"】存在多个，请核实!");
+				throw new EchoException("该编码【"+pcode+"】存在多个，请核实!");
 			}
 			pid = list.get(0).getId();
 		}

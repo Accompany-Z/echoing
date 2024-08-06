@@ -3,15 +3,13 @@ package org.jeecg.common.util.dynamic.db;
 import com.alibaba.druid.pool.DruidDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jeecg.common.exception.JeecgBootException;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.vo.DynamicDataSourceModel;
 import org.jeecg.common.util.ReflectHelper;
 import org.jeecg.common.util.oConvertUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +77,7 @@ public class DynamicDBUtil {
             if(dataSource!=null && dataSource.isEnable()){
                 DataSourceCachePool.putCacheBasicDataSource(dbKey, dataSource);
             }else{
-                throw new JeecgBootException("动态数据源连接失败，dbKey："+dbKey);
+                throw new EchoException("动态数据源连接失败，dbKey："+dbKey);
             }
             log.info("--------getDbSourceBydbKey------------------创建DB数据库连接-------------------");
             return dataSource;

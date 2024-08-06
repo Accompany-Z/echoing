@@ -8,7 +8,7 @@ import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.SymbolConstant;
 import org.jeecg.common.constant.enums.FileTypeEnum;
 import org.jeecg.common.constant.enums.MessageTypeEnum;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.util.CommonUtils;
 import org.jeecg.common.util.RedisUtil;
@@ -122,7 +122,7 @@ public class SysCommentServiceImpl extends ServiceImpl<SysCommentMapper, SysComm
         //LOWCOD-2580 sys/common/upload接口存在任意文件上传漏洞
         if (oConvertUtils.isNotEmpty(bizPath)) {
             if (bizPath.contains(SymbolConstant.SPOT_SINGLE_SLASH) || bizPath.contains(SymbolConstant.SPOT_DOUBLE_BACKSLASH)) {
-                throw new JeecgBootException("上传目录bizPath，格式非法！");
+                throw new EchoException("上传目录bizPath，格式非法！");
             }
         }
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -249,7 +249,7 @@ public class SysCommentServiceImpl extends ServiceImpl<SysCommentMapper, SysComm
     private String uploadLocal(MultipartFile mf, String bizPath) {
         //LOWCOD-2580 sys/common/upload接口存在任意文件上传漏洞
         if (oConvertUtils.isNotEmpty(bizPath) && (bizPath.contains("../") || bizPath.contains("..\\"))) {
-            throw new JeecgBootException("上传目录bizPath，格式非法！");
+            throw new EchoException("上传目录bizPath，格式非法！");
         }
         try {
             String ctxPath = uploadpath;

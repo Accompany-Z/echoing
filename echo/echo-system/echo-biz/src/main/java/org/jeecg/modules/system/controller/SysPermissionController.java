@@ -6,11 +6,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.SymbolConstant;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.Md5Util;
 import org.jeecg.common.util.oConvertUtils;
@@ -447,7 +446,7 @@ public class SysPermissionController {
 				if (oConvertUtils.isNotEmpty(id)) {
 					try {
 						sysPermissionService.deletePermission(id);
-					} catch (JeecgBootException e) {
+					} catch (EchoException e) {
 						if(e.getMessage()!=null && e.getMessage().contains("未找到菜单信息")){
 							log.warn(e.getMessage());
 						}else{

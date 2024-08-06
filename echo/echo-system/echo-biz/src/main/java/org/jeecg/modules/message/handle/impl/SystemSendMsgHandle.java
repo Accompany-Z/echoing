@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.jeecg.common.api.dto.message.MessageDTO;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.constant.WebsocketConst;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.util.SpringContextUtils;
 import org.jeecg.common.util.oConvertUtils;
@@ -54,7 +54,7 @@ public class SystemSendMsgHandle implements ISendMsgHandle {
     @Override
     public void sendMsg(String esReceiver, String esTitle, String esContent) {
         if(oConvertUtils.isEmpty(esReceiver)){
-            throw  new JeecgBootException("被发送人不能为空");
+            throw  new EchoException("被发送人不能为空");
         }
         ISysBaseAPI sysBaseApi = SpringContextUtils.getBean(ISysBaseAPI.class);
         MessageDTO messageDTO = new MessageDTO(FROM_USER,esReceiver,esTitle,esContent);

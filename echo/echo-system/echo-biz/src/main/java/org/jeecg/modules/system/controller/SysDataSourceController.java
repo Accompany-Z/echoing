@@ -3,9 +3,6 @@ package org.jeecg.modules.system.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.baomidou.dynamic.datasource.creator.DruidDataSourceCreator;
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,10 +10,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.dynamic.db.DataSourceCachePool;
@@ -30,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -103,7 +98,7 @@ public class SysDataSourceController extends JeecgController<SysDataSource, ISys
         //update-begin-author:taoyan date:2022-8-10 for: jdbc连接地址漏洞问题
         try {
             JdbcSecurityUtil.validate(sysDataSource.getDbUrl());
-        }catch (JeecgBootException e){
+        }catch (EchoException e){
             log.error(e.toString());
             return Result.error("操作失败：" + e.getMessage());
         }
@@ -124,7 +119,7 @@ public class SysDataSourceController extends JeecgController<SysDataSource, ISys
         //update-begin-author:taoyan date:2022-8-10 for: jdbc连接地址漏洞问题
         try {
             JdbcSecurityUtil.validate(sysDataSource.getDbUrl());
-        } catch (JeecgBootException e) {
+        } catch (EchoException e) {
             log.error(e.toString());
             return Result.error("操作失败：" + e.getMessage());
         }

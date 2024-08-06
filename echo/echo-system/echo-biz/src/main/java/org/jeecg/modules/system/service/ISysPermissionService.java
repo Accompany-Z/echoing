@@ -1,7 +1,7 @@
 package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.exception.EchoException;
 import org.jeecg.modules.system.entity.SysPermission;
 import org.jeecg.modules.system.model.TreeModel;
 
@@ -31,29 +31,29 @@ public interface ISysPermissionService extends IService<SysPermission> {
 	/**
      * 真实删除
      * @param id 菜单id
-     * @throws JeecgBootException
+     * @throws EchoException
      */
-	public void deletePermission(String id) throws JeecgBootException;
+	public void deletePermission(String id) throws EchoException;
 	/**
      * 逻辑删除
      * @param id 菜单id
-     * @throws JeecgBootException
+     * @throws EchoException
      */
-	public void deletePermissionLogical(String id) throws JeecgBootException;
+	public void deletePermissionLogical(String id) throws EchoException;
 
     /**
      * 添加菜单
      * @param sysPermission SysPermission对象
-     * @throws JeecgBootException
+     * @throws EchoException
      */
-	public void addPermission(SysPermission sysPermission) throws JeecgBootException;
+	public void addPermission(SysPermission sysPermission) throws EchoException;
 
     /**
      * 编辑菜单
      * @param sysPermission SysPermission对象
-     * @throws JeecgBootException
+     * @throws EchoException
      */
-	public void editPermission(SysPermission sysPermission) throws JeecgBootException;
+	public void editPermission(SysPermission sysPermission) throws EchoException;
 
     /**
      * 获取登录用户拥有的权限
