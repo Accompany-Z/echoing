@@ -7,7 +7,7 @@ server:
     include-stacktrace: ALWAYS
     include-message: ALWAYS
   servlet:
-    context-path: /jeecg-boot
+    context-path: /echo
   compression:
     enabled: true
     min-response-size: 1024
@@ -137,7 +137,7 @@ spring:
   #redis 配置
   redis:
     database: 0
-    host: 118.31.4.53
+    host: 47.95.201.146
     port: 6379
     password: 'Zwf.2533'
 #mybatis plus 设置
@@ -220,7 +220,7 @@ jeecg:
     logRetentionDays: 30
   #分布式锁配置
   redisson:
-    address: 118.31.4.53:6379
+    address: 47.95.201.146:6379
     password:
     type: STANDALONE
     enabled: true

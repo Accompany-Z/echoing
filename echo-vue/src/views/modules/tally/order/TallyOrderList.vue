@@ -5,42 +5,44 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="客户姓名">
+              <j-category-select v-model="queryParam.clientName" pcode="A01A01" placeholder="请选择客户姓名"
+                :multiple="false" />
+            </a-form-item>
+          </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="订单名称">
-              <a-input placeholder="请输入订单名称" v-model="queryParam.name"></a-input>
+              <a-input placeholder="请输入订单名称" v-model="queryParam.orderName"></a-input>
+            </a-form-item>
+          </a-col>
+
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="订单类型">
+              <j-dict-select-tag v-model="queryParam.orderType" dictCode="tally_type" placeholder="请选择订单类型" />
+            </a-form-item>
+          </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="规格型号（直径）">
+              <j-dict-select-tag v-model="queryParam.diameter"
+                dictCode="tally_order,diameter,diameter,group by diameter" placeholder="请选择规格型号" />
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="开始日期">
-              <j-date placeholder="请选择开始日期" v-model="queryParam.startDate"></j-date>
+              <a-range-picker :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" class="query-group-cust"
+                v-model="queryParam.ksrq" style="width: 100%;" />
             </a-form-item>
           </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="完结日期">
-                <j-date placeholder="请选择完结日期" v-model="queryParam.endDate"></j-date>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="规格型号">
-                <j-dict-select-tag v-model="queryParam.type" dictCode="tally_order,type, type,del_flag = '0'"
-                  placeholder="请选择规格型号" />
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="客户姓名">
-                <j-category-select v-model="queryParam.clientName" pcode="A01A01" placeholder="请选择客户姓名"
-                  :multiple="false" />
-              </a-form-item>
-            </a-col>
-          </template>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="完结日期">
+              <a-range-picker :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" class="query-group-cust"
+                v-model="queryParam.wjrq" style="width: 100%;" />
+            </a-form-item>
+          </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'" />
-              </a>
             </span>
           </a-col>
         </a-row>
@@ -51,7 +53,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('订单信息')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('订单')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl"
         @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
@@ -71,8 +73,8 @@
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
         <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
-    selectedRowKeys.length
-  }}</a>项
+          selectedRowKeys.length
+        }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -97,7 +99,7 @@
         </template>
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="handleMaintain(record)">编辑</a>
 
           <a-divider type="vertical" />
           <a-dropdown>
@@ -114,10 +116,8 @@
             </a-menu>
           </a-dropdown>
         </span>
-
       </a-table>
     </div>
-
     <tally-order-modal ref="modalForm" @ok="modalFormOk"></tally-order-modal>
   </a-card>
 </template>
@@ -137,7 +137,7 @@ export default {
   },
   data() {
     return {
-      description: '订单信息管理页面',
+      description: '订单管理页面',
       // 表头
       columns: [
         {
@@ -153,83 +153,37 @@ export default {
         {
           title: '订单名称',
           align: "center",
-          dataIndex: 'name'
-        },
-        {
-          title: '开始日期',
-          align: "center",
-          dataIndex: 'startDate',
-          customRender: function (text) {
-            return !text ? "" : (text.length > 10 ? text.substr(0, 10) : text)
-          }
-        },
-        {
-          title: '完结日期',
-          align: "center",
-          dataIndex: 'endDate',
-          customRender: function (text) {
-            return !text ? "" : (text.length > 10 ? text.substr(0, 10) : text)
-          }
-        },
-        {
-          title: '规格型号',
-          align: "center",
-          dataIndex: 'type_dictText'
-        },
-        {
-          title: '单价/顿',
-          align: "center",
-          dataIndex: 'price'
-        },
-        {
-          title: '订单总量',
-          align: "center",
-          dataIndex: 'orderTotal'
-        },
-        {
-          title: '订单余量',
-          align: "center",
-          dataIndex: 'orderMargin'
-        },
-        {
-          title: '总金额',
-          align: "center",
-          dataIndex: 'totalMoney'
-        },
-        {
-          title: '付款金额',
-          align: "center",
-          dataIndex: 'payMent'
-        },
-        {
-          title: '付款方式',
-          align: "center",
-          dataIndex: 'payType'
-        },
-        {
-          title: '税款',
-          align: "center",
-          dataIndex: 'tax'
-        },
-        {
-          title: '税点',
-          align: "center",
-          dataIndex: 'taxPoint'
+          dataIndex: 'orderName'
         },
         {
           title: '客户姓名',
           align: "center",
-          dataIndex: 'clientName_dictText'
+          dataIndex: 'clientName'
+        },
+        {
+          title: '订单类型',
+          align: "center",
+          dataIndex: 'orderType'
+        },
+        {
+          title: '规格型号（直径）',
+          align: "center",
+          dataIndex: 'diameter'
+        },
+        {
+          title: '开始日期',
+          align: "center",
+          dataIndex: 'startTime'
+        },
+        {
+          title: '完结日期',
+          align: "center",
+          dataIndex: 'finishTime'
         },
         {
           title: '备注',
           align: "center",
           dataIndex: 'remark'
-        },
-        {
-          title: '是否删除',
-          align: "center",
-          dataIndex: 'delFlag'
         },
         {
           title: '操作',
@@ -246,6 +200,7 @@ export default {
         deleteBatch: "/order/deleteBatch",
         exportXlsUrl: "/order/exportXls",
         importExcelUrl: "order/importExcel",
+
       },
       dictOptions: {},
       superFieldList: [],
@@ -260,23 +215,52 @@ export default {
     },
   },
   methods: {
+    handleMaintain(record) {
+      let that = this
+      this.$confirm({
+        title: "操作",
+        content: "请选择所要进行的操作。",
+        okText: "维护",
+        cancelText: "编辑",
+        onOk: function () {
+          that.$refs.modalForm.edit(record);
+          that.$refs.modalForm.title = "维护";
+          that.$refs.modalForm.isMaintain = true;
+          that.$refs.modalForm.disableSubmit = false;
+        },
+        onCancel: function () {
+          that.$refs.modalForm.edit(record);
+          that.$refs.modalForm.title = "维护";
+          that.$refs.modalForm.isMaintain = false;
+          that.$refs.modalForm.disableSubmit = false;
+        }
+      });
+    },
+    handleDetail(record) {
+      this.$refs.modalForm.edit(record);
+      this.$refs.modalForm.title = "详情";
+      this.$refs.modalForm.isMaintain = true;
+      this.$refs.modalForm.disableSubmit = true;
+    },
     initDictConfig() {
     },
     getSuperFieldList() {
       let fieldList = [];
-      fieldList.push({ type: 'string', value: 'name', text: '订单名称', dictCode: '' })
-      fieldList.push({ type: 'date', value: 'startDate', text: '开始日期' })
-      fieldList.push({ type: 'date', value: 'endDate', text: '完结日期' })
-      fieldList.push({ type: 'double', value: 'type', text: '规格型号', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'price', text: '单价/顿', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'orderTotal', text: '订单总量', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'orderMargin', text: '订单余量', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'totalMoney', text: '总金额', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'payMent', text: '付款金额', dictCode: '' })
-      fieldList.push({ type: 'string', value: 'payType', text: '付款方式', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'tax', text: '税款', dictCode: '' })
-      fieldList.push({ type: 'double', value: 'taxPoint', text: '税点', dictCode: '' })
+      fieldList.push({ type: 'string', value: 'parentId', text: '父id', dictCode: '' })
       fieldList.push({ type: 'string', value: 'clientName', text: '客户姓名', dictCode: '' })
+      fieldList.push({ type: 'string', value: 'orderName', text: '订单名称', dictCode: '' })
+      fieldList.push({ type: 'string', value: 'orderType', text: '订单类型', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'orderTotal', text: '订单总量', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'orderMargin', text: '订单余量', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'diameter', text: '规格型号（直径）', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'price', text: '单价/吨', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'totalMoney', text: '总金额', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'paymentAmount', text: '付款金额', dictCode: '' })
+      fieldList.push({ type: 'string', value: 'paymentMethod', text: '付款方式', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'tax', text: '税款', dictCode: '' })
+      fieldList.push({ type: 'BigDecimal', value: 'taxPoint', text: '税点', dictCode: '' })
+      fieldList.push({ type: 'datetime', value: 'startTime', text: '开始日期' })
+      fieldList.push({ type: 'datetime', value: 'finishTime', text: '完结日期' })
       fieldList.push({ type: 'Text', value: 'remark', text: '备注', dictCode: '' })
       fieldList.push({ type: 'string', value: 'delFlag', text: '是否删除', dictCode: '' })
       this.superFieldList = fieldList

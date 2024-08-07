@@ -16,12 +16,9 @@
 
       <div class="footer">
         <div class="links">
-          <a href="http://doc.jeecg.com" target="_blank">帮助</a>
-          <a href="https://github.com/zhangdaiscott/jeecg-boot" target="_blank">隐私</a>
-          <a href="https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE" target="_blank">条款</a>
-        </div>
-        <div class="copyright">
-          Copyright &copy; 2025 <a href="#" target="_blank">ZWF</a> 出品
+          <a href="http://www.baidu.com" target="_blank">帮助</a>
+          <a href="https://www.zwfcyy.com" target="_blank">隐私</a>
+          <a href="https://www.zwfcyy.com" target="_blank">条款</a>
         </div>
       </div>
     </div>
@@ -126,7 +123,7 @@
         width: 100%;
         bottom: 0;
         padding: 0 16px;
-        margin: 48px 0 24px;
+        margin: 48px 0 0;
         text-align: center;
 
         .links {
