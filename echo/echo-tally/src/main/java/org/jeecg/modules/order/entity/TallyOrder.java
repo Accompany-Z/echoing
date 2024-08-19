@@ -1,7 +1,6 @@
 package org.jeecg.modules.order.entity;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.math.BigDecimal;
 
@@ -16,19 +15,17 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 import org.jeecg.common.aspect.annotation.Dict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * @Description: 订单
  * @Author: jeecg-boot
- * @Date: 2024-08-07
+ * @Date: 2024-08-12
  * @Version: V1.0
  */
 @Data
 @TableName("tally_order")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "tally_order对象", description = "订单")
 public class TallyOrder implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,12 +41,13 @@ public class TallyOrder implements Serializable {
      */
     @Excel(name = "父id", width = 15)
     @ApiModelProperty(value = "父id")
-    private java.lang.String parentId;
+    private java.lang.String pid;
     /**
      * 客户姓名
      */
     @Excel(name = "客户姓名", width = 15)
     @ApiModelProperty(value = "客户姓名")
+    @Dict(dictTable = "sys_category", dicCode = "id", dicText = "name")
     private java.lang.String clientName;
     /**
      * 订单名称
@@ -62,6 +60,7 @@ public class TallyOrder implements Serializable {
      */
     @Excel(name = "订单类型", width = 15)
     @ApiModelProperty(value = "订单类型")
+    @Dict(dicCode = "tally_type")
     private java.lang.String orderType;
     /**
      * 订单总量
@@ -154,8 +153,8 @@ public class TallyOrder implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "创建时间")
     private java.util.Date createTime;
     /**
@@ -166,8 +165,15 @@ public class TallyOrder implements Serializable {
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "更新时间")
     private java.util.Date updateTime;
+    /**
+     * 是否有子节点
+     */
+    @Excel(name = "是否有子节点", width = 15, dicCode = "yn")
+    @Dict(dicCode = "yn")
+    @ApiModelProperty(value = "是否有子节点")
+    private java.lang.String hasChild;
 }

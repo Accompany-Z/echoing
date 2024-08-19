@@ -214,7 +214,7 @@
         this.websock.onclose = this.websocketOnclose;
       },
       websocketOnopen: function () {
-        console.log("WebSocket连接成功");
+        // console.log("WebSocket连接成功");
         //心跳检测重置
         //this.heartCheck.reset().start();
       },

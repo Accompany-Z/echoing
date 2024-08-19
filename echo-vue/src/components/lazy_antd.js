@@ -61,7 +61,9 @@ import {
   Collapse,
 } from 'ant-design-vue'
 import Viser from 'viser-vue'
+import infiniteScroll from 'vue-infinite-scroll';
 
+Vue.use(infiniteScroll)
 Vue.use(ConfigProvider)
 Vue.use(Layout)
 Vue.use(Input)

@@ -12,7 +12,7 @@ require('@jeecg/antd-online-mini')
 require('@jeecg/antd-online-mini/dist/OnlineForm.css')
 
 import Antd, { version } from 'ant-design-vue'
-console.log('ant-design-vue version:', version)
+// console.log('ant-design-vue version:', version)
 
 import Viser from 'viser-vue'
 import 'ant-design-vue/dist/antd.less';  // or 'ant-design-vue/dist/antd.less'

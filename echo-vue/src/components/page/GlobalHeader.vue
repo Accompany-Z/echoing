@@ -17,8 +17,8 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入 Jeecg-Boot 企业级低代码平台</span>
-      <span v-else>Jeecg-Boot</span>
+      <span v-if="device === 'desktop'">欢迎进入 Echo 综合平台</span>
+      <span v-else>Echo</span>
 
       <user-menu :theme="theme"/>
     </div>
@@ -151,7 +151,7 @@
             this.topMenuStyle.headerIndexLeft = {}
           } else {
             let rightWidth = '400px'
-            this.topMenuStyle.topNavHeader = { 'min-width': '165px' }
+            this.topMenuStyle.topNavHeader = { 'min-width': '150px' }
             this.topMenuStyle.topSmenuStyle = { 'width': 'calc(100% - 165px)' }
             this.topMenuStyle.headerIndexRight = { 'min-width': rightWidth, 'white-space': 'nowrap' }
             this.topMenuStyle.headerIndexLeft = { 'width': `calc(100% - ${rightWidth})` }
